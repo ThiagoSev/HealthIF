@@ -20,4 +20,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "DataStore"
-include(":app")
+include(":mobile")
+include(":wearos")
