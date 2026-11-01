@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -33,7 +34,7 @@ import com.sambinelli.datastore.viewmodel.PreferenciasViewModel
 class MainActivity : ComponentActivity() {
 
     private val viewModel: PreferenciasViewModel by viewModels {
-    viewModelFactory {
+        viewModelFactory {
             initializer {
                 //applicationContext é o contexto de toda a aplicação, não está vinculado ao ciclo de vida da Activity
                 PreferenciasViewModel(PreferenciasRepository(applicationContext.dataStore))
@@ -46,51 +47,49 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HealthIFAPP()
-
         }
     }
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun HealthIFAPP(){
+    fun HealthIFAPP() {
         val escuro by viewModel.escuro.collectAsStateWithLifecycle()
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-        var modoEcuroOn: Boolean = false
 
-        Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        DataStoreTheme(darkTheme = escuro) {
+            Scaffold(
+                modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
 
-            topBar = {
-                CenterAlignedTopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.primary
-                    ),
-                    title = {
-                        Text(
-                            text = "HealthIF",
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    },
-                    actions = {
-                        IconButton(onClick = {
-                            viewModel?.toggleEscuro(modoEcuroOn)
-                            modoEcuroOn = !modoEcuroOn
-                        }) {
-                            Icon(
-                                imageVector = Icons.Filled.Home,
-                                contentDescription = "trocar tema"
+                topBar = {
+                    CenterAlignedTopAppBar(
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            titleContentColor = MaterialTheme.colorScheme.primary
+                        ),
+                        title = {
+                            Text(
+                                text = "HealthIF",
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
-                        }
-                    },
-                    scrollBehavior = scrollBehavior,
+                        },
+                        actions = {
+                            IconButton(onClick = {
+                                viewModel.toggleEscuro(!escuro)
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Home,
+                                    contentDescription = "trocar tema"
+                                )
+                            }
+                        },
+                        scrollBehavior = scrollBehavior,
+                    )
+                }
+            ) { innerPadding ->
+                HeartCareScreen(
+                    viewModel = viewModel,
+                    modifier = Modifier.padding(innerPadding)
                 )
-            }
-        ){
-            it
-
-            DataStoreTheme (darkTheme = escuro ) {
-                HeartCareScreen(viewModel = viewModel)
             }
         }
     }
