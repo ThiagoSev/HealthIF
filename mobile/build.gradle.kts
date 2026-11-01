@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    namespace = "com.sambinelli.datastore"
+    namespace = "com.example.healthif"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.sambinelli.datastore"
+        applicationId = "com.example.healthif"
         minSdk = 29
         targetSdk = 36
         versionCode = 1

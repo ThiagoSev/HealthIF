@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.wearos"
+        applicationId = "com.example.healthif"
         minSdk = 30
         targetSdk = 36
         versionCode = 1

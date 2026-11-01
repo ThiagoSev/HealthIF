@@ -1,4 +1,4 @@
-package com.sambinelli.datastore.ui.theme
+package com.example.HealthIF.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

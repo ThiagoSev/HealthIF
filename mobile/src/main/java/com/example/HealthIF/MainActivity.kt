@@ -1,4 +1,4 @@
-package com.sambinelli.datastore
+package com.example.HealthIF
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -25,11 +25,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.sambinelli.datastore.repository.PreferenciasRepository
-import com.sambinelli.datastore.repository.dataStore
-import com.sambinelli.datastore.screen.HeartCareScreen
-import com.sambinelli.datastore.ui.theme.DataStoreTheme
-import com.sambinelli.datastore.viewmodel.PreferenciasViewModel
+import com.example.HealthIF.repository.PreferenciasRepository
+import com.example.HealthIF.repository.dataStore
+import com.example.HealthIF.screen.HeartCareScreen
+import com.example.HealthIF.ui.theme.DataStoreTheme
+import com.example.HealthIF.viewmodel.PreferenciasViewModel
 
 class MainActivity : ComponentActivity() {
 

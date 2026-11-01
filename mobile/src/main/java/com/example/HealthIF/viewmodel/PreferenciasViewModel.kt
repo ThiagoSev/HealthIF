@@ -1,8 +1,8 @@
-package com.sambinelli.datastore.viewmodel
+package com.example.HealthIF.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sambinelli.datastore.repository.PreferenciasRepository
+import com.example.HealthIF.repository.PreferenciasRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch

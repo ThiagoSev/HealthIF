@@ -1,4 +1,4 @@
-package com.sambinelli.datastore.screen
+package com.example.HealthIF.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,8 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sambinelli.datastore.ui.theme.DataStoreTheme
-import com.sambinelli.datastore.viewmodel.PreferenciasViewModel
+import com.example.HealthIF.ui.theme.DataStoreTheme
+import com.example.HealthIF.viewmodel.PreferenciasViewModel
 
 //TEMPORARIO
 data class batimentos (val bpm: String, val hora: String)
