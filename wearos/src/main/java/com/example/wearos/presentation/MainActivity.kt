@@ -29,6 +29,9 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.example.wearos.R
 import com.example.wearos.presentation.theme.DataStoreTheme
+import android.content.Context
+import com.google.android.gms.wearable.Wearable
+import androidx.compose.ui.platform.LocalContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +44,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WearApp(greetingName: String) {
+    val context = LocalContext.current
     DataStoreTheme {
         AppScaffold {
             val listState = rememberTransformingLazyColumnState()
@@ -60,6 +64,7 @@ fun WearApp(greetingName: String) {
                     }
                 },
             ) { contentPadding -> // ScreenScaffold provides default padding; adjust as needed
+
                 TransformingLazyColumn(contentPadding = contentPadding, state = listState) {
                     item {
                         ListHeader(
@@ -72,12 +77,12 @@ fun WearApp(greetingName: String) {
                     }
                     item {
                         Button(
-                            onClick = { /*TODO*/ },
+                            onClick = { enviarBatimentos(context, 78) },
                             modifier = Modifier.fillMaxWidth()
                                 .transformedHeight(this, transformationSpec),
                             transformation = SurfaceTransformation(transformationSpec),
                         ) {
-                            Text("Button A")
+                            Text("Enviar dado celular")
                         }
                     }
                     item {
@@ -102,6 +107,28 @@ fun WearApp(greetingName: String) {
                     }
 
                 }
+            }
+        }
+    }
+}
+
+fun enviarBatimentos(
+    context: Context,
+    bpm: Int
+){
+    val nodeClient = Wearable.getNodeClient(context)
+    val messageClient = Wearable.getMessageClient(context)
+
+    nodeClient.connectedNodes.addOnSuccessListener { nodes ->
+        nodes.forEach { node ->
+            messageClient.sendMessage(
+                node.id,
+                "/batimentos",
+                bpm.toString().toByteArray()
+            ).addOnSuccessListener {
+                println("Mensagem enfileirada!")
+            }.addOnFailureListener { erro ->
+                println("Erro: ${erro.message}")
             }
         }
     }
