@@ -1,4 +1,4 @@
-package com.example.HealthIF
+package com.example.healthif
 
 import org.junit.Test
 

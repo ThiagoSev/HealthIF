@@ -1,4 +1,4 @@
-package com.example.HealthIF.screen
+package com.example.healthif.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +14,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -21,8 +22,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.HealthIF.ui.theme.DataStoreTheme
-import com.example.HealthIF.viewmodel.PreferenciasViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.healthif.ui.theme.DataStoreTheme
+import com.example.healthif.viewmodel.PreferenciasViewModel
 
 //TEMPORARIO
 data class batimentos (val bpm: String, val hora: String)
@@ -43,9 +45,16 @@ fun HeartCareScreenFake() {
 
 @Composable
 private fun ComponentesInterface(
-    viewModel: PreferenciasViewModel?,
+    viewModel: PreferenciasViewModel,
     modifier: Modifier = Modifier
 ) {
+
+    val atual by viewModel.batimentoAtual
+        .collectAsStateWithLifecycle()
+
+    val historico by viewModel.historico
+        .collectAsStateWithLifecycle()
+
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -55,8 +64,7 @@ private fun ComponentesInterface(
         item {
             Card(
                 modifier = Modifier
-                    .fillMaxWidth(0.85f)
-                    ,
+                    .fillMaxWidth(0.85f),
 
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
@@ -80,7 +88,9 @@ private fun ComponentesInterface(
                         )
                     )
                     Text(
-                        text = "60",
+                        text = if (atual != null)
+                            atual.toString()
+                            else "sem batimentos",
                         style = TextStyle(
                             color = MaterialTheme.colorScheme.primary,
                             fontSize = 42.sp,
@@ -91,14 +101,14 @@ private fun ComponentesInterface(
             }
 
         }
-        items(batimentosList) { batimento ->
-            RegistroBatimento(batimento.bpm, batimento.hora)
+        items(historico) { itemHistorico ->
+            RegistroBatimento(itemHistorico.bpm, itemHistorico.timestamp)
         }
     }
 }
 
 @Composable
-fun RegistroBatimento(bpm: String, hora: String) {
+fun RegistroBatimento(bpm: Int, hora: Long) {
     Column(
         modifier = Modifier
             .fillMaxWidth(0.85f)

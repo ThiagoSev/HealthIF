@@ -1,4 +1,4 @@
-package com.example.HealthIF
+package com.example.healthif
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -25,25 +25,39 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.HealthIF.repository.PreferenciasRepository
-import com.example.HealthIF.repository.dataStore
-import com.example.HealthIF.screen.HeartCareScreen
-import com.example.HealthIF.ui.theme.DataStoreTheme
-import com.example.HealthIF.viewmodel.PreferenciasViewModel
-
+import com.example.healthif.DAO.HeartBeatsDao
+import com.example.healthif.repository.PreferenciasRepository
+import com.example.healthif.repository.dataStore
+import com.example.healthif.screen.HeartCareScreen
+import com.example.healthif.ui.theme.DataStoreTheme
+import com.example.healthif.viewmodel.PreferenciasViewModel
+import com.example.healthif.repository.HeartBeatsRepository
+import androidx.lifecycle.viewmodel.compose.viewModel
 class MainActivity : ComponentActivity() {
 
     private val viewModel: PreferenciasViewModel by viewModels {
         viewModelFactory {
             initializer {
-                //applicationContext é o contexto de toda a aplicação, não está vinculado ao ciclo de vida da Activity
-                PreferenciasViewModel(PreferenciasRepository(applicationContext.dataStore))
+                PreferenciasViewModel(
+                    PreferenciasRepository(applicationContext.dataStore),
+                    (application as MeuApp).batimentosRepository
+                )
             }
         }
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val database = AppDatabase.getDatabase(applicationContext)
+
+        val repo = PreferenciasRepository(
+            applicationContext.dataStore
+        )
+
+        val repository = (application as MeuApp).batimentosRepository
+
         enableEdgeToEdge()
         setContent {
             HealthIFAPP()
