@@ -35,17 +35,21 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
     buildFeatures {
         compose = true
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
     }
 }
 
 dependencies {
     val room_version = "3.0.3"
 
+    implementation("com.developerstring.jetco:ui:1.1.0-beta")
     ksp("androidx.room3:room3-compiler:$room_version")
     implementation("androidx.room3:room3-runtime:$room_version")
     implementation("androidx.sqlite:sqlite-framework:2.7.1")

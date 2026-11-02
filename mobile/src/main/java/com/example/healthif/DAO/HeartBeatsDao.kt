@@ -8,15 +8,15 @@ import androidx.room3.Insert
 
 @Dao
 interface HeartBeatsDao{
-    @Query("SELECT * FROM user")
+    @Query("SELECT * FROM batimentos")
     suspend fun getAll(): List<HeartBeat>
 
     @Insert
-    suspend fun inserir(dao: HeartBeat): List<HeartBeat>
+    suspend fun inserir(dao: HeartBeat)
 
     @Query("""
         SELECT * FROM batimentos 
-        ORDER BY data 
+        ORDER BY timestamp
         DESC LIMIT 1
     """)
     fun observarUltimo(): Flow<HeartBeat?>

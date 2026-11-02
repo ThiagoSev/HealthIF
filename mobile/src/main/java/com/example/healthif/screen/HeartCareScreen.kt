@@ -3,9 +3,11 @@ package com.example.healthif.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +27,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.healthif.ui.theme.DataStoreTheme
 import com.example.healthif.viewmodel.PreferenciasViewModel
+import com.developerstring.jetco.ui.charts.barchart.ColumnBarChart
+import androidx.compose.ui.graphics.Color
+import com.developerstring.jetco.ui.charts.barchart.config.BarChartDefaults
+import com.example.healthif.Entities.HeartBeat
 
 //TEMPORARIO
 data class batimentos (val bpm: String, val hora: String)
@@ -35,28 +41,31 @@ val batimentosList = arrayListOf(
 
 @Composable
 fun HeartCareScreen(viewModel: PreferenciasViewModel, modifier: Modifier = Modifier) {
-    ComponentesInterface(viewModel, modifier)
-}
-
-@Composable
-fun HeartCareScreenFake() {
-    ComponentesInterface(null)
-}
-
-@Composable
-private fun ComponentesInterface(
-    viewModel: PreferenciasViewModel,
-    modifier: Modifier = Modifier
-) {
-
     val atual by viewModel.batimentoAtual
         .collectAsStateWithLifecycle()
 
     val historico by viewModel.historico
         .collectAsStateWithLifecycle()
 
+    ComponentesInterface(atual, historico)
+}
+
+@Composable
+fun HeartCareScreenFake() {
+    val historico = listOf(
+        HeartBeat(bpm = 70),
+        HeartBeat(bpm = 80),
+        HeartBeat(bpm = 90),
+        HeartBeat(bpm = 85)
+    )
+    ComponentesInterface(HeartBeat(bpm = 70), historico)
+}
+
+@Composable
+private fun ComponentesInterface(atual: HeartBeat?, historico: List<HeartBeat>) {
+
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(vertical = 16.dp)
@@ -89,7 +98,7 @@ private fun ComponentesInterface(
                     )
                     Text(
                         text = if (atual != null)
-                            atual.toString()
+                            atual.bpm.toString()
                             else "sem batimentos",
                         style = TextStyle(
                             color = MaterialTheme.colorScheme.primary,
@@ -100,6 +109,7 @@ private fun ComponentesInterface(
                 }
             }
 
+            BarChartExample()
         }
         items(historico) { itemHistorico ->
             RegistroBatimento(itemHistorico.bpm, itemHistorico.timestamp)
@@ -135,6 +145,26 @@ fun RegistroBatimento(bpm: Int, hora: Long) {
             )
         )
     }
+}
+
+@Composable
+fun BarChartExample() {
+    val data = mapOf(
+        "Mon" to 120f,
+        "Tue" to 85f,
+        "Wed" to 200f,
+        "Thu" to 150f,
+        "Fri" to 170f
+    )
+
+    ColumnBarChart(
+        chartData = data,
+        barChartConfig = BarChartDefaults.columnBarChartConfig(
+            color = Color(0xFF6C5CE7),
+            height = 200.dp,
+            width = 30.dp
+        )
+    )
 }
 
 @Preview(showBackground = true)
