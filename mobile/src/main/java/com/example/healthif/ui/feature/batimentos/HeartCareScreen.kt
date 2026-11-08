@@ -1,13 +1,11 @@
-package com.example.healthif.screen
+package com.example.healthif.ui.feature.batimentos
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,18 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.healthif.ui.theme.DataStoreTheme
-import com.example.healthif.viewmodel.PreferenciasViewModel
 import com.developerstring.jetco.ui.charts.barchart.ColumnBarChart
 import androidx.compose.ui.graphics.Color
 import com.developerstring.jetco.ui.charts.barchart.config.BarChartDefaults
-import com.example.healthif.Entities.HeartBeat
-
-//TEMPORARIO
-data class batimentos (val bpm: String, val hora: String)
-val batimentosList = arrayListOf(
-    batimentos("85", "11:48"),
-    batimentos("89", "10:56"),
-)
+import com.example.healthif.data.Entities.HeartBeat
 
 @Composable
 fun HeartCareScreen(viewModel: PreferenciasViewModel, modifier: Modifier = Modifier) {

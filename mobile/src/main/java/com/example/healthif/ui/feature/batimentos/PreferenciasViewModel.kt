@@ -1,14 +1,14 @@
-package com.example.healthif.viewmodel
+package com.example.healthif.ui.feature.batimentos
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.healthif.repository.HeartBeatsRepository
-import com.example.healthif.repository.PreferenciasRepository
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.healthif.data.repository.HeartBeatsRepository
+import com.example.healthif.data.repository.PreferenciasRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.lifecycle.viewmodel.initializer
 
 class PreferenciasViewModel(
     private val repo: PreferenciasRepository,
@@ -49,5 +49,3 @@ class PreferenciasViewModel(
         }
     }
 }
-
-

@@ -1,4 +1,4 @@
-package com.example.healthif.repository
+package com.example.healthif.data.repository
 
 import android.content.Context
 import androidx.datastore.core.DataStore

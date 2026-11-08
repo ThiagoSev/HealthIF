@@ -1,4 +1,4 @@
-package com.example.healthif.Entities
+package com.example.healthif.data.Entities
 
 import androidx.room3.Entity
 import androidx.room3.PrimaryKey

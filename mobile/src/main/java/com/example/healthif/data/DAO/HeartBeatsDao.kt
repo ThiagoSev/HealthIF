@@ -1,8 +1,8 @@
-package com.example.healthif.DAO
+package com.example.healthif.data.DAO
 
 import androidx.room3.Dao
 import androidx.room3.Query
-import com.example.healthif.Entities.HeartBeat
+import com.example.healthif.data.Entities.HeartBeat
 import kotlinx.coroutines.flow.Flow
 import androidx.room3.Insert
 
