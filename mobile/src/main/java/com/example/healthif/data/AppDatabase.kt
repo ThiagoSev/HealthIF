@@ -1,12 +1,12 @@
-package com.example.healthif
+package com.example.healthif.data
 
 import android.content.Context
 import androidx.room3.Database
 import androidx.room3.Room
 import androidx.room3.RoomDatabase
 import androidx.sqlite.driver.AndroidSQLiteDriver
-import com.example.healthif.DAO.HeartBeatsDao
-import com.example.healthif.Entities.HeartBeat
+import com.example.healthif.data.DAO.HeartBeatsDao
+import com.example.healthif.data.Entities.HeartBeat
 
 @Database(
     entities = [HeartBeat::class],

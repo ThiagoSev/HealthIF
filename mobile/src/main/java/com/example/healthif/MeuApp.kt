@@ -1,7 +1,8 @@
 package com.example.healthif
 
 import android.app.Application
-import com.example.healthif.repository.HeartBeatsRepository
+import com.example.healthif.data.AppDatabase
+import com.example.healthif.data.repository.HeartBeatsRepository
 import kotlin.getValue
 
 class MeuApp : Application() {

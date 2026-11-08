@@ -25,14 +25,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.healthif.DAO.HeartBeatsDao
-import com.example.healthif.repository.PreferenciasRepository
-import com.example.healthif.repository.dataStore
-import com.example.healthif.screen.HeartCareScreen
+import com.example.healthif.data.repository.PreferenciasRepository
+import com.example.healthif.data.repository.dataStore
+import com.example.healthif.ui.feature.batimentos.HeartCareScreen
 import com.example.healthif.ui.theme.DataStoreTheme
-import com.example.healthif.viewmodel.PreferenciasViewModel
-import com.example.healthif.repository.HeartBeatsRepository
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.healthif.ui.feature.batimentos.PreferenciasViewModel
+import com.example.healthif.data.AppDatabase
+
 class MainActivity : ComponentActivity() {
 
     private val viewModel: PreferenciasViewModel by viewModels {

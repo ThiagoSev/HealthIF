@@ -1,7 +1,7 @@
-package com.example.healthif.repository
+package com.example.healthif.data.repository
 
-import com.example.healthif.DAO.HeartBeatsDao
-import com.example.healthif.Entities.HeartBeat
+import com.example.healthif.data.DAO.HeartBeatsDao
+import com.example.healthif.data.Entities.HeartBeat
 import kotlinx.coroutines.flow.Flow
 
 class HeartBeatsRepository(
