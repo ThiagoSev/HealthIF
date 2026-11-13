@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">wearOS</string>
+    <string name="app_name">HealthIF</string>
     <string name="hello_world">Hello, %1$s!</string>
 </resources>

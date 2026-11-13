@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.wear.tooling.preview)
     implementation(libs.compose.material3)
     implementation(libs.compose.ui.tooling)
@@ -61,4 +62,5 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation("com.google.android.gms:play-services-wearable:20.0.1")
+    implementation("androidx.wear:wear-input:1.2.0")
 }
