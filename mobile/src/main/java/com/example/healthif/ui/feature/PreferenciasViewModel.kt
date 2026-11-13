@@ -1,4 +1,4 @@
-package com.example.healthif.ui.feature.batimentos
+package com.example.healthif.ui.feature
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

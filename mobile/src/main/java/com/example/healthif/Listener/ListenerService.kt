@@ -31,11 +31,6 @@ class ListenerService : WearableListenerService() {
         runBlocking {
             try{
                 repository.adicionarBatimentos(bpm)
-
-                Log.d(
-                    "WEAR",
-                    "Batimento salvo: $bpm BPM"
-                )
             } catch(e: Exception){
                 Log.e(
                     "WEAR",

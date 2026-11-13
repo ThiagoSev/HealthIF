@@ -27,9 +27,9 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.healthif.data.repository.PreferenciasRepository
 import com.example.healthif.data.repository.dataStore
-import com.example.healthif.ui.feature.batimentos.HeartCareScreen
-import com.example.healthif.ui.theme.DataStoreTheme
-import com.example.healthif.ui.feature.batimentos.PreferenciasViewModel
+import com.example.healthif.ui.feature.heartbeats.HeartCareScreen
+import com.example.healthif.ui.feature.heartbeats.HeartCareTheme
+import com.example.healthif.ui.feature.PreferenciasViewModel
 import com.example.healthif.data.AppDatabase
 
 class MainActivity : ComponentActivity() {
@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
         val escuro by viewModel.escuro.collectAsStateWithLifecycle()
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
-        DataStoreTheme(darkTheme = escuro) {
+        HeartCareTheme(darkTheme = escuro) {
             Scaffold(
                 modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
 
