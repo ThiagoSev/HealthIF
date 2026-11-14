@@ -27,10 +27,11 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.healthif.data.repository.PreferenciasRepository
 import com.example.healthif.data.repository.dataStore
-import com.example.healthif.ui.feature.heartbeats.HeartCareScreen
+import com.example.healthif.ui.feature.Initial.InitialScreen
 import com.example.healthif.ui.feature.heartbeats.HeartCareTheme
 import com.example.healthif.ui.feature.PreferenciasViewModel
 import com.example.healthif.data.AppDatabase
+import com.example.healthif.navigation.NavHost
 
 class MainActivity : ComponentActivity() {
 
@@ -38,8 +39,7 @@ class MainActivity : ComponentActivity() {
         viewModelFactory {
             initializer {
                 PreferenciasViewModel(
-                    PreferenciasRepository(applicationContext.dataStore),
-                    (application as MeuApp).batimentosRepository
+                    PreferenciasRepository(applicationContext.dataStore)
                 )
             }
         }
@@ -48,14 +48,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val database = AppDatabase.getDatabase(applicationContext)
-
-        val repo = PreferenciasRepository(
-            applicationContext.dataStore
-        )
-
-        val repository = (application as MeuApp).batimentosRepository
 
         enableEdgeToEdge()
         setContent {
@@ -99,10 +91,7 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             ) { innerPadding ->
-                HeartCareScreen(
-                    viewModel = viewModel,
-                    modifier = Modifier.padding(innerPadding)
-                )
+                NavHost(paddingValues = innerPadding)
             }
         }
     }

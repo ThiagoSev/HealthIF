@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">DataStore</string>
+    <string name="metric_calories">Calorias</string>
+    <string name="metric_heartbeats">Batimentos</string>
+    <string name="metric_steps">Passos</string>
+    <string name="metric_distance">Distância</string>
+    <string name="metric_unavailable">—</string>
 </resources>

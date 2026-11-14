@@ -39,6 +39,10 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.healthif.data.AppDatabase
+import com.example.healthif.data.repository.HeartBeatsRepository
 import com.example.healthif.ui.feature.PreferenciasViewModel
 
 private val registroFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy • HH:mm:ss", Locale.forLanguageTag("pt-BR"))
@@ -79,11 +83,23 @@ fun AlertDialogEmergencia(){
 }
 
 @Composable
-fun HeartCareScreen(viewModel: PreferenciasViewModel, modifier: Modifier = Modifier) {
+fun HeartCareScreen() {
+    val context = LocalContext.current.applicationContext
+    val database = AppDatabase.getDatabase(context)
+    val repository = HeartBeatsRepository(
+        dao = database.heartBeatDao()
+    )
+
+    val viewModel = viewModel<HeartBeatViewModel>{
+        HeartBeatViewModel(
+            repository = repository
+        )
+    }
+
     val atual by viewModel.batimentoAtual.collectAsStateWithLifecycle()
     val historico by viewModel.historico.collectAsStateWithLifecycle()
 
-    ComponentesInterface(atual, historico, modifier)
+    ComponentesInterface(atual, historico)
 }
 
 @Composable
@@ -99,11 +115,10 @@ fun HeartCareScreenFake() {
 @Composable
 private fun ComponentesInterface(
     atual: HeartBeat?,
-    historico: List<HeartBeat>,
-    modifier: Modifier = Modifier
+    historico: List<HeartBeat>
 ) {
     HeartCareTheme {
-        Surface(modifier = modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
