@@ -2,23 +2,38 @@ package com.example.wearos.healthif.data.sync
 
 import android.content.Context
 import com.example.wearos.healthif.data.model.HealthReadings
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.wearable.DataItem
+import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
-import org.json.JSONObject
 
 class PhoneSyncDataSource(context: Context) {
     private val appContext = context.applicationContext
 
     fun syncHealthReadings(readings: HealthReadings, onStatus: (String) -> Unit) {
-        val payload = JSONObject()
-            .put("steps", readings.steps ?: JSONObject.NULL)
-            .put("calories", readings.calories ?: JSONObject.NULL)
-            .put("distanceMeters", readings.distanceMeters ?: JSONObject.NULL)
-            .put("heartRate", readings.heartRate ?: JSONObject.NULL)
-            .put("collectedAt", System.currentTimeMillis())
-            .toString()
-            .toByteArray(Charsets.UTF_8)
+        onStatus("Preparando sincronização...")
+        sendHealthReadings(readings)
+            .addOnSuccessListener {
+                onStatus("Dados disponibilizados para sincronização")
+            }
+            .addOnFailureListener {
+                onStatus("Falha ao disponibilizar dados para sincronização")
+            }
+    }
 
-        sendToConnectedPhones(SYNC_PATH, payload, "Dados sincronizados", onStatus)
+    private fun sendHealthReadings(readings: HealthReadings): Task<DataItem> {
+        val request = PutDataMapRequest.create(SYNC_PATH).run {
+            readings.steps?.let { dataMap.putLong("steps", it) }
+            readings.calories?.let { dataMap.putInt("calories", it) }
+            readings.distanceMeters?.let { dataMap.putDouble("distanceMeters", it) }
+            readings.heartRate?.let { dataMap.putInt("heartRate", it) }
+
+            dataMap.putLong("collectedAt", System.currentTimeMillis())
+
+            asPutDataRequest().setUrgent()
+        }
+
+        return Wearable.getDataClient(appContext).putDataItem(request)
     }
 
     fun findPhone(onStatus: (String) -> Unit) {
