@@ -107,7 +107,7 @@ fun HeartCareScreenFake() {
     val inicio = java.time.LocalDate.of(2026, 11, 8)
         .atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
     val historico = listOf(70, 80, 90, 85, 75, 82, 78, 72, 88, 84, 76, 74).mapIndexed { index, bpm ->
-        HeartBeat(id = index + 1, bpm = bpm, timestamp = inicio + index * 2 * 60 * 60_000L)
+        HeartBeat(bpm = bpm, measuredAt = inicio + index * 2 * 60 * 60_000L)
     }
     ComponentesInterface(historico.last(), historico)
 }
@@ -172,7 +172,7 @@ private fun ComponentesInterface(
                 }
                 itemsIndexed(historico) { index, itemHistorico ->
                     Column(modifier = Modifier.fillMaxWidth()) {
-                        RegistroBatimento(itemHistorico.bpm, itemHistorico.timestamp)
+                        RegistroBatimento(itemHistorico.bpm, itemHistorico.measuredAt)
                         if (index < historico.lastIndex) {
                             HorizontalDivider(
                                 modifier = Modifier.padding(top = 16.dp),

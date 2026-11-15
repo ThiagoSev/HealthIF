@@ -1,6 +1,5 @@
-package com.example.healthif.Listener
+package com.example.healthif.listener
 
-import android.content.Context
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
@@ -11,11 +10,13 @@ import android.os.Vibrator
 import android.os.VibratorManager
 import android.util.Log
 import com.example.healthif.MeuApp
+import com.example.healthif.data.Entities.DailyActivity
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
 import kotlinx.coroutines.runBlocking
 import org.json.JSONException
 import org.json.JSONObject
+import java.time.LocalDate
 
 class ListenerService : WearableListenerService() {
 
@@ -23,20 +24,6 @@ class ListenerService : WearableListenerService() {
         when (event.path) {
             "/healthif/find_phone" -> alertFindPhone()
             "/healthif/sync" -> saveHealthSnapshot(event.data.toString(Charsets.UTF_8))
-            "/batimentos" -> {
-                val bpm = event.data.toString(Charsets.UTF_8).toIntOrNull()
-                if (bpm == null || bpm !in 1..300) return
-
-                runBlocking {
-                    try {
-                        (applicationContext as MeuApp).batimentosRepository
-                            .adicionarBatimentos(bpm)
-                        Log.d("WEAR", "Batimento salvo: $bpm BPM")
-                    } catch (error: Exception) {
-                        Log.e("WEAR", "Erro ao salvar batimento", error)
-                    }
-                }
-            }
         }
     }
 
@@ -48,6 +35,8 @@ class ListenerService : WearableListenerService() {
             val distanceMeters = snapshot.optionalDouble("distanceMeters")
             val heartRate = snapshot.optionalInt("heartRate")
             val collectedAt = snapshot.optLong("collectedAt", 0L)
+            val measuredAt = snapshot.optLong("measuredAt", 0L)
+            val receivedAt = snapshot.optLong("receivedAt", 0L)
 
             if (steps?.let { it < 0 } == true ||
                 calories?.let { it < 0 } == true ||
@@ -56,20 +45,31 @@ class ListenerService : WearableListenerService() {
                 collectedAt <= 0
             ) {
                 Log.w("WEAR", "Snapshot de saúde fora dos limites")
-                return
             }
+            else{
+                val dailyActivity = DailyActivity(
+                    LocalDate.now().toEpochDay(),
+                    steps = steps?.toInt(),
+                    calories = calories,
+                    distance = distanceMeters?.toInt(),
+                    collectedAt)
 
-            getSharedPreferences("health_sync", Context.MODE_PRIVATE)
-                .edit()
-                .putString("latest_snapshot", snapshot.toString())
-                .apply()
+                runBlocking {
+                    (applicationContext as MeuApp).dailyActivityRepository
+                        .adicionarAtividadeDiaria(dailyActivity)
+                }
+
+            }
 
             if (heartRate != null) {
                 runBlocking {
                     try {
                         (applicationContext as MeuApp).batimentosRepository
-                            .adicionarBatimentos(heartRate)
-                        Log.d("WEAR", "Snapshot recebido e BPM salvo: $heartRate")
+                            .adicionarBatimentos(
+                                bpm = heartRate,
+                                measuredAt = measuredAt
+                            )
+
                     } catch (error: Exception) {
                         Log.e("WEAR", "Snapshot recebido, mas não foi possível salvar o BPM", error)
                     }

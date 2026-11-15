@@ -27,7 +27,7 @@
         </activity>
 
         <service
-            android:name=".Listener.ListenerService"
+            android:name=".listener.ListenerService"
             android:exported="true">
 
             <intent-filter>

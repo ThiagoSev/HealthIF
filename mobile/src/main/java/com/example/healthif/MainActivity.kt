@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -27,10 +26,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.healthif.data.repository.PreferenciasRepository
 import com.example.healthif.data.repository.dataStore
-import com.example.healthif.ui.feature.Initial.InitialScreen
 import com.example.healthif.ui.feature.heartbeats.HeartCareTheme
 import com.example.healthif.ui.feature.PreferenciasViewModel
-import com.example.healthif.data.AppDatabase
 import com.example.healthif.navigation.NavHost
 
 class MainActivity : ComponentActivity() {

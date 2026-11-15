@@ -7,8 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
-import com.example.healthif.ui.feature.Initial.InitialScreen
+import com.example.healthif.ui.feature.initial.InitialScreen
 import com.example.healthif.ui.feature.heartbeats.HeartCareScreen
 import kotlinx.serialization.Serializable
 

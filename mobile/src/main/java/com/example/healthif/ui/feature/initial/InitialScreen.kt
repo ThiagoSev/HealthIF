@@ -1,4 +1,4 @@
-package com.example.healthif.ui.feature.Initial
+package com.example.healthif.ui.feature.initial
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,17 +27,37 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.healthif.R
-import com.example.healthif.ui.feature.PreferenciasViewModel
+import com.example.healthif.data.AppDatabase
+import com.example.healthif.data.repository.DailyActivityRepository
 import com.example.healthif.ui.feature.heartbeats.HeartCareTheme
 
 @Composable
 fun InitialScreen(
     navigateToHeartCareScreen: () -> Unit
 ) {
-    //val atual by viewModel.batimentoAtual.collectAsStateWithLifecycle()
+    val context = LocalContext.current.applicationContext
+    val database = AppDatabase.getDatabase(context)
+    val repository = DailyActivityRepository(
+        dao = database.dailyActivityDAO()
+    )
 
-    InitialContent(batimentos = "10", navigateToHeartCareScreen = navigateToHeartCareScreen)
+    val viewModel = viewModel<InitialViewModel>{
+        InitialViewModel(
+            repository = repository
+        )
+    }
+
+    val atual by viewModel.lastActivity.collectAsStateWithLifecycle()
+
+    InitialContent(
+        batimentos = "10",
+        calorias = atual?.calories.toString(),
+        passos = atual?.steps.toString(),
+        distancia = atual?.distance.toString(),
+        navigateToHeartCareScreen = navigateToHeartCareScreen
+    )
 }
 
 @Composable

@@ -15,7 +15,7 @@ internal fun calcularMediasPorQuatroHoras(
     zoneId: ZoneId = ZoneId.systemDefault()
 ): List<MediaBatimentos> = historico
     .groupBy { batimento ->
-        val horario = Instant.ofEpochMilli(batimento.timestamp).atZone(zoneId)
+        val horario = Instant.ofEpochMilli(batimento.measuredAt).atZone(zoneId)
         horario.toLocalDate().atTime((horario.hour / 4) * 4, 0)
     }
     .toSortedMap()

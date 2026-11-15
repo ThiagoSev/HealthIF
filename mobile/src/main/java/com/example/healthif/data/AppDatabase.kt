@@ -5,7 +5,8 @@ import androidx.room3.Database
 import androidx.room3.Room
 import androidx.room3.RoomDatabase
 import androidx.sqlite.driver.AndroidSQLiteDriver
-import com.example.healthif.data.DAO.HeartBeatsDao
+import com.example.healthif.data.dao.DailyActivityDAO
+import com.example.healthif.data.dao.HeartBeatsDao
 import com.example.healthif.data.Entities.HeartBeat
 
 @Database(
@@ -15,6 +16,7 @@ import com.example.healthif.data.Entities.HeartBeat
 )
 abstract class AppDatabase : RoomDatabase(){
     abstract fun heartBeatDao(): HeartBeatsDao
+    abstract fun dailyActivityDAO(): DailyActivityDAO
 
     companion object {
         @Volatile
@@ -25,7 +27,7 @@ abstract class AppDatabase : RoomDatabase(){
 
                 INSTANCE ?: Room.databaseBuilder<AppDatabase>(
                     context = context.applicationContext,
-                    name = "batimentos_database"
+                    name = "healthif_database"
                 )
                     .setDriver(AndroidSQLiteDriver())
                     .build()
